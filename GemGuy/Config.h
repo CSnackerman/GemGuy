@@ -10,8 +10,10 @@ public:
 	// time
 	static constexpr int DELAY = 3;
 
+	// world
+	static constexpr float GRAVITY = 9.8f;
+
 	// player
 	static constexpr float ACCEL = 10.0f;
 	static constexpr float SPEED = 100.0f;
 };
-

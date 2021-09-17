@@ -50,6 +50,7 @@ void Player::move(Direction d) {
 
 void Player::update(float dt) {
 
+
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 	

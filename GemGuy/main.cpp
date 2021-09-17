@@ -34,6 +34,8 @@ int main() {
 	Time time;
 
 	Player player;
+	
+	Platform platform = Platform (0, Config::HEIGHT - 25, Config::WIDTH, 25);
 
 
 	// GAME LOOP
@@ -59,6 +61,7 @@ int main() {
 
 		// draw
 		player.draw (renderer);
+		platform.draw (renderer);
 
 		// swap
 		SDL_RenderPresent (renderer);
