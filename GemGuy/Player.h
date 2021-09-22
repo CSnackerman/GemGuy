@@ -1,10 +1,13 @@
 #pragma once
 
+#include <iostream>
+
 #include <SDL_rect.h>
 #include <SDL_render.h>
 
 #include "Config.h"
 #include "Vec2.h"
+#include "Platform.h"
 
 enum class Direction {
 	UP, DOWN, LEFT, RIGHT, NONE
@@ -20,6 +23,8 @@ public:
 
 	SDL_Rect rect;
 	SDL_Color color;
+	
+	bool onGround = false;
 
 	Player();
 
@@ -28,6 +33,8 @@ public:
 	void move (Direction d);
 
 	void update (float dt);
+
+	SDL_bool collide (Platform& p);
 
 private:
 	void bindRect();

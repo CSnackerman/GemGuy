@@ -53,6 +53,7 @@ int main() {
 		Keyboard::listen (run, player);
 
 		// update
+		player.collide (platform);
 		player.update (time.dt);
 
 		// clear screen

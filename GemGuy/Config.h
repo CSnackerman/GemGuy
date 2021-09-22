@@ -14,6 +14,7 @@ public:
 	static constexpr float GRAVITY = 9.8f;
 
 	// player
-	static constexpr float ACCEL = 10.0f;
-	static constexpr float SPEED = 100.0f;
+	static constexpr float ACCEL = 50.0f;
+	static constexpr float SPEED = 1000.0f;
+	static constexpr float JUMP_POWER = 1000.0f;
 };

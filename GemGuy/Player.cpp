@@ -24,9 +24,15 @@ Player::Player() {
 
 void Player::move(Direction d) {
 
+	printf("%.5f    %.5f\n", velocity.x, velocity.y);
+
 	switch (d) {
 		
 		case Direction::UP:
+			if (onGround) {
+				position.y -= 1.0f;
+				velocity.y = -Config::JUMP_POWER;
+			}
 			break;
 
 		case Direction::DOWN:
@@ -41,8 +47,19 @@ void Player::move(Direction d) {
 			break;
 
 		case Direction::NONE:
-			acceleration.x = 0;
-			velocity.x = 0;
+			
+			// decelerate
+			if (velocity.x > 0.1f) {
+				acceleration.x = -Config::ACCEL;
+			}
+			else if (velocity.x < -0.1f) {
+				acceleration.x = Config::ACCEL;
+			}
+			else {
+				acceleration.x = 0.0f;
+				velocity.x = 0.0f;
+			}
+			
 			break;
 	}
 
@@ -50,6 +67,12 @@ void Player::move(Direction d) {
 
 void Player::update(float dt) {
 
+	// add gravity
+	acceleration.y = Config::GRAVITY;
+	if (onGround) {
+		acceleration.y = 0;
+		velocity.y = 0;
+	}
 
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
@@ -72,6 +95,19 @@ void Player::draw(SDL_Renderer* renderer) {
 
 	SDL_SetRenderDrawColor (renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect (renderer, &this->rect);
+}
+
+SDL_bool Player::collide(Platform& p) {
+
+	SDL_bool touchingPlat = SDL_HasIntersection (&this->rect, &p.rect);
+
+	if (touchingPlat) {
+		onGround = true;
+		return touchingPlat;
+	}
+
+	onGround = false;
+	return SDL_FALSE;
 }
 
 void Player::bindRect() {

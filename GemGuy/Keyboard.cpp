@@ -18,20 +18,21 @@ void Keyboard::listen(bool& run, Player& p) {
 
 
 	if (up) {
-		std::cout << "Pressing UP" << std::endl;
+		//std::cout << "Pressing UP" << std::endl;
+		p.move (Direction::UP);
 	}
 
 	if (down) {
-		std::cout << "Pressing DOWN" << std::endl;
+		//std::cout << "Pressing DOWN" << std::endl;
 	}
 
 	if (left) {
-		std::cout << "Pressing LEFT" << std::endl;
+		//std::cout << "Pressing LEFT" << std::endl;
 		p.move (Direction::LEFT);
 	}
 
 	if (right) {
-		std::cout << "Pressing RIGHT" << std::endl;
+		//std::cout << "Pressing RIGHT" << std::endl;
 		p.move (Direction::RIGHT);
 	}
 
