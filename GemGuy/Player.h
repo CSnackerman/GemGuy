@@ -25,6 +25,7 @@ public:
 	SDL_Color color;
 	
 	bool onGround = false;
+	bool bonkHead = false;
 
 	Player();
 
@@ -34,10 +35,11 @@ public:
 
 	void update (float dt);
 
-	SDL_bool collide (Platform& p);
+	SDL_bool collide (Platform p [], int numPlats);
 
 private:
 	void bindRect();
 	void setColor(int r, int g, int b);
+	bool isAbove(Platform &p);
 };
 

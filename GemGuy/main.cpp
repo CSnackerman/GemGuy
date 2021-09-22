@@ -34,8 +34,13 @@ int main() {
 	Time time;
 
 	Player player;
-	
-	Platform platform = Platform (0, Config::HEIGHT - 25, Config::WIDTH, 25);
+
+	Platform platforms [2] = { 
+		Platform (0, Config::HEIGHT - 25, Config::WIDTH, 25),
+		Platform (0, Config::HEIGHT - 150, Config::WIDTH, 25)
+	};
+
+	int numPlatforms = sizeof (platforms) / sizeof (platforms [0]);
 
 
 	// GAME LOOP
@@ -53,7 +58,7 @@ int main() {
 		Keyboard::listen (run, player);
 
 		// update
-		player.collide (platform);
+		player.collide (platforms, numPlatforms);
 		player.update (time.dt);
 
 		// clear screen
@@ -62,9 +67,12 @@ int main() {
 
 		// draw
 		player.draw (renderer);
-		platform.draw (renderer);
 
-		// swap
+		for (auto& p : platforms) {
+			p.draw (renderer);
+		}
+
+		// swap frame buffer
 		SDL_RenderPresent (renderer);
 	}
 

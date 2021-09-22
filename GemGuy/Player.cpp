@@ -5,7 +5,8 @@ Player::Player() {
 	int w = Config::WIDTH / 15;
 	int h = w;
 	float x = static_cast<float> (Config::WIDTH / 2 - w / 2);
-	float y = static_cast<float> (Config::HEIGHT / 2 - h / 2);
+	/*float y = static_cast<float> (Config::HEIGHT / 2 - h / 2);*/
+	float y = static_cast<float> (Config::HEIGHT - 125);
 
 	position.x = x;
 	position.y = y;
@@ -69,10 +70,20 @@ void Player::update(float dt) {
 
 	// add gravity
 	acceleration.y = Config::GRAVITY;
+
+	// don't move down when on ground
 	if (onGround) {
 		acceleration.y = 0;
 		velocity.y = 0;
 	}
+
+	// stop moving up when bonking head
+	if (bonkHead) {
+		velocity.y = 0;
+		position.y += 1;
+	}
+
+	// update vectors...
 
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
@@ -97,16 +108,25 @@ void Player::draw(SDL_Renderer* renderer) {
 	SDL_RenderFillRect (renderer, &this->rect);
 }
 
-SDL_bool Player::collide(Platform& p) {
+SDL_bool Player::collide (Platform p [], int numPlats) {
 
-	SDL_bool touchingPlat = SDL_HasIntersection (&this->rect, &p.rect);
+	for (int i = 0; i < numPlats; i++) {
 
-	if (touchingPlat) {
-		onGround = true;
-		return touchingPlat;
+		if ( SDL_HasIntersection(&this->rect, &p[i].rect) ) {
+			
+			if ( isAbove(p[i]) ) {
+				onGround = true;
+			}
+			else {
+				bonkHead = true;
+			}
+
+			return SDL_TRUE;
+		}
 	}
 
 	onGround = false;
+	bonkHead = false;
 	return SDL_FALSE;
 }
 
@@ -121,4 +141,17 @@ void Player::setColor(int r, int g, int b) {
 	color.g = g;
 	color.b = b;
 	color.a = 255;
+}
+
+bool Player::isAbove (Platform& p) {
+	
+	int player_bottom = rect.y + rect.h;
+	int platform_bottom = p.rect.y + p.rect.h;
+
+	if (player_bottom < platform_bottom) {
+		return true;
+	}
+
+	return false;
+
 }
