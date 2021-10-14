@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include <SDL_rect.h>
 #include <SDL_render.h>
@@ -35,7 +36,7 @@ public:
 
 	void update (float dt);
 
-	SDL_bool collide (Platform p [], int numPlats);
+	SDL_bool collide (std::vector <Platform> platforms);
 
 private:
 	void bindRect();

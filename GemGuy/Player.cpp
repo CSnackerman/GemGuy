@@ -108,13 +108,13 @@ void Player::draw(SDL_Renderer* renderer) {
 	SDL_RenderFillRect (renderer, &this->rect);
 }
 
-SDL_bool Player::collide (Platform p [], int numPlats) {
+SDL_bool Player::collide (std::vector <Platform> platforms) {
 
-	for (int i = 0; i < numPlats; i++) {
+	for (auto &platform : platforms) {
 
-		if ( SDL_HasIntersection(&this->rect, &p[i].rect) ) {
+		if ( SDL_HasIntersection(&rect, &platform.rect) ) {
 			
-			if ( isAbove(p[i]) ) {
+			if ( isAbove(platform) ) {
 				onGround = true;
 			}
 			else {
@@ -153,5 +153,4 @@ bool Player::isAbove (Platform& p) {
 	}
 
 	return false;
-
 }
