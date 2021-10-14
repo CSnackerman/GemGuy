@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <SDL_keyboard.h>
+#include <SDL.h>
 
 #include "Player.h"
 

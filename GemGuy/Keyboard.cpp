@@ -15,6 +15,8 @@ void Keyboard::listen(bool& run, Player& p) {
 	Uint8 down = keystate [SDL_SCANCODE_DOWN];
 	Uint8 left = keystate [SDL_SCANCODE_LEFT];
 	Uint8 right = keystate [SDL_SCANCODE_RIGHT];
+	
+	Uint8 esc = keystate [SDL_SCANCODE_ESCAPE];
 
 
 	if (up) {
@@ -39,5 +41,10 @@ void Keyboard::listen(bool& run, Player& p) {
 	// no horizontal keys pressed
 	if (!left && !right) {
 		p.move (Direction::NONE);
+	}
+
+	if (esc) {
+		SDL_Quit();
+		exit(0);
 	}
 }
