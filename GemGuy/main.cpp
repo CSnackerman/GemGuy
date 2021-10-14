@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <string>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "Config.h"
 #include "Events.h"
@@ -10,19 +10,18 @@
 #include "Player.h"
 #include "Platform.h"
 #include "Time.h"
+#include "Levels.h"
 
-// IDK Why but must have
 #undef main
 
 int main() {
 
 	// SETUP
-	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Init (SDL_INIT_EVERYTHING);
 
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	
-
 	SDL_CreateWindowAndRenderer (
 		Config::WIDTH, 
 		Config::HEIGHT, 
@@ -31,17 +30,12 @@ int main() {
 		&renderer
 	);
 
+	// Game Objects
 	Time time;
-
+	Levels level;
 	Player player;
 
-	Platform platforms [2] = { 
-		Platform (0, Config::HEIGHT - 25, Config::WIDTH, 25),
-		Platform (0, Config::HEIGHT - 150, Config::WIDTH, 25)
-	};
-
-	int numPlatforms = sizeof (platforms) / sizeof (platforms [0]);
-
+	level.loadLevel (1);
 
 	// GAME LOOP
 	bool run = true;
@@ -58,7 +52,7 @@ int main() {
 		Keyboard::listen (run, player);
 
 		// update
-		player.collide (platforms, numPlatforms);
+		player.collide (level.platforms);
 		player.update (time.dt);
 
 		// clear screen
@@ -68,9 +62,7 @@ int main() {
 		// draw
 		player.draw (renderer);
 
-		for (auto& p : platforms) {
-			p.draw (renderer);
-		}
+		level.display(renderer);
 
 		// swap frame buffer
 		SDL_RenderPresent (renderer);
