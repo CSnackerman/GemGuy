@@ -27,6 +27,7 @@ public:
 	
 	bool onGround = false;
 	bool bonkHead = false;
+	bool isBeside = false;
 
 	Player();
 
@@ -42,5 +43,8 @@ private:
 	void bindRect();
 	void setColor(int r, int g, int b);
 	bool isAbove(Platform &p);
+	bool isBelow (Platform &p);
+	bool isLeftOf (Platform &p);
+	bool isRightOf (Platform &p);
 };
 

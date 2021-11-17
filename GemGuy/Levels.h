@@ -3,12 +3,14 @@
 #include <vector>
 
 #include "Platform.h"
+#include "Goal.h"
 
 class Levels {
 
 public:
     static int current;
     std::vector <Platform> platforms;
+    Goal goal;
 
     Levels();
 

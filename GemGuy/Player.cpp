@@ -112,13 +112,41 @@ SDL_bool Player::collide (std::vector <Platform> platforms) {
 
 	for (auto &platform : platforms) {
 
+		// if ( SDL_HasIntersection(&rect, &platform.rect) ) {
+			
+		// 	if ( isAbove(platform) ) {
+		// 		onGround = true;
+		// 	}
+		// 	else {
+		// 		bonkHead = true;
+		// 	}
+
+		// 	return SDL_TRUE;
+		// }
+
 		if ( SDL_HasIntersection(&rect, &platform.rect) ) {
 			
 			if ( isAbove(platform) ) {
 				onGround = true;
 			}
+			else if (!isBelow(platform)){
+
+				if (isLeftOf(platform)) {
+					
+					velocity.x = 0;
+					position.x = platform.rect.x - rect.w;
+					bindRect();
+					
+				}
+				else if (isRightOf(platform)) {
+					velocity.x = 0;
+					position.x = platform.rect.x + platform.rect.w;
+					bindRect();
+				}
+				
+			}
 			else {
-				bonkHead = true;
+					bonkHead = true;
 			}
 
 			return SDL_TRUE;
@@ -149,6 +177,46 @@ bool Player::isAbove (Platform& p) {
 	int platform_bottom = p.rect.y + p.rect.h;
 
 	if (player_bottom < platform_bottom) {
+		return true;
+	}
+
+	return false;
+}
+
+bool Player::isBelow (Platform &p) {
+
+	int playerTop = rect.y;
+	int platformTop = p.rect.y;
+
+	if (playerTop > platformTop) {
+		return true;
+	}
+
+	return false;
+}
+
+bool Player::isLeftOf (Platform &p) {
+
+	int playerLeft = rect.x;
+	int playerRight = rect.x + rect.w;
+
+	int platformLeft = p.rect.x;
+
+	if (playerRight > platformLeft && playerLeft < platformLeft) {
+		return true;
+	}
+	
+	return false;
+}
+
+bool Player::isRightOf (Platform &p) {
+	
+	int playerLeft = rect.x;
+	int playerRight = rect.x + rect.w;
+
+	int platformRight = p.rect.x + p.rect.w;
+
+	if (playerLeft < platformRight && playerRight > platformRight) {
 		return true;
 	}
 
